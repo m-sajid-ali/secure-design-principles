@@ -1,0 +1,21 @@
+services:
+  bad-practice:
+    image: php:8.2-apache
+    ports:
+      - "8081:80"
+    volumes:
+      - ./bad-practice/src:/var/www/html
+  
+  good-practice:
+    image: php:8.2-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./good-practice/src:/var/www/html
+
+  attacker:
+    image: php:8.2-apache
+    ports:
+      - "8082:80"
+    volumes:
+      - ./attacker/src:/var/www/html
