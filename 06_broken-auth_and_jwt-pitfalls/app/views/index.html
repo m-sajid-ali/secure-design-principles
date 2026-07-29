@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module 2 — Broken Auth & JWT</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+  <h1>Module 2 — Broken Authentication &amp; JWT</h1>
+  <p class="sub">One attacker goal — read others' data / become admin — against five escalating defenses. Watch where each attack dies.</p>
+  <div class="cards">
+    <a class="card" href="vulnerable.html">
+      <span class="tag bad">❌ Vulnerable</span>
+      <h2>Levels 1–3</h2>
+      <p>decode() → verify() with a weak secret → a naive/legacy verifier that accepts alg:none.</p>
+    </a>
+    <a class="card" href="hardened.html">
+      <span class="tag good">✅ Hardened</span>
+      <h2>Levels 4–5</h2>
+      <p>Strong secret + pinned algorithm + expiry, then a sender-constrained token that a copy can't reuse.</p>
+    </a>
+  </div>
+  <p class="sub" style="margin-top:24px">Accounts: <code>alice / S3cret-Alice!</code>, <code>bob / Bob-Pass-123</code>, <code>admin / SuperSecretAdminPw#2024</code>.</p>
+</div></body></html>
