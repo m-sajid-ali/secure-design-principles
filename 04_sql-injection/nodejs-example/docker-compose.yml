@@ -1,0 +1,35 @@
+# Module 1 — SQL Injection.  Run from THIS folder:  docker compose up -d
+# Spins up only this demo: a Node app + its own MariaDB, on their own network.
+services:
+  db:
+    image: mariadb:10.11
+    container_name: m1-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      # MariaDB runs every *.sql in this dir once, on first startup.
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build: ./app
+    container_name: m1-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"        # open http://localhost:3000
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    depends_on:
+      db:
+        condition: service_healthy   # wait until the DB is really ready

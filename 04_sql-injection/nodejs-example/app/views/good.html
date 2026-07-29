@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Secure login — Module 1</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+  <a class="back" href="index.html">&larr; Back</a>
+  <h1>✅ Secure login</h1>
+  <div class="banner good">Same feature, parameterized query + bcrypt-hashed passwords. Try the exact same attacks — they fail, but real credentials still work.</div>
+
+  <label>Username</label>
+  <input id="username" value="alice" autocomplete="off">
+  <label>Password</label>
+  <input id="password" value="S3cret-Alice!" autocomplete="off">
+
+  <div class="attacks">
+    <button class="ghost" onclick="fill('alice','S3cret-Alice!')">Normal login</button>
+    <button class="ghost" onclick="fill(&quot;admin'#&quot;,'anything')">Attack: admin injection</button>
+    <button class="ghost" onclick="fill('x',&quot;' OR '1'='1&quot;)">Attack: OR '1'='1</button>
+  </div>
+
+  <button onclick="login()">Log in</button>
+
+  <div id="panel" class="panel">
+    <div id="status" class="status"></div>
+    <div id="msg"></div>
+  </div>
+
+<script>
+function fill(u,p){ document.getElementById('username').value=u; document.getElementById('password').value=p; }
+async function login(){
+  const username=document.getElementById('username').value;
+  const password=document.getElementById('password').value;
+  const r=await fetch('/good/login',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({username,password})});
+  const d=await r.json();
+  const panel=document.getElementById('panel'); panel.classList.add('show');
+  const status=document.getElementById('status');
+  if(d.ok){ status.textContent='Logged in as '+d.user.username+' (role: '+d.user.role+')';
+            status.className='status win safe'; }
+  else { status.textContent='Login rejected — attack blocked'; status.className='status win safe'; }
+  document.getElementById('msg').textContent=d.message||'';
+}
+</script>
+</div></body></html>

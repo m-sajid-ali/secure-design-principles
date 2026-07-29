@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module 1 — SQL Injection</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+  <h1>Module 1 — SQL Injection</h1>
+  <p class="sub">Same login feature, two implementations. Try to break each one.</p>
+  <div class="cards">
+    <a class="card" href="bad.html">
+      <span class="tag bad">❌ Vulnerable</span>
+      <h2>Insecure login</h2>
+      <p>Builds the SQL query by pasting your input into a string. See if you can log in without a password.</p>
+    </a>
+    <a class="card" href="good.html">
+      <span class="tag good">✅ Secure</span>
+      <h2>Hardened login</h2>
+      <p>Parameterized query + hashed passwords. The same attacks bounce off it.</p>
+    </a>
+  </div>
+  <p class="sub" style="margin-top:28px">Seeded accounts: <code>alice / S3cret-Alice!</code> and <code>admin / SuperSecretAdminPw#2024</code>.</p>
+</div></body></html>
