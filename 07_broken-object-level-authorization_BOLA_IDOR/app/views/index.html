@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module 3 — BOLA / IDOR</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+  <h1>Module 3 — Broken Object Level Authorization (BOLA / IDOR)</h1>
+  <p class="sub">Authentication is done right here (verified JWT). The question is different: once you're logged in, can you touch objects that aren't yours?</p>
+  <div class="cards">
+    <a class="card" href="bad.html">
+      <span class="tag bad">❌ Vulnerable</span>
+      <h2>Fetch by ID only</h2>
+      <p>Log in as alice, then read and cancel Bob's orders just by changing the ID in the URL.</p>
+    </a>
+    <a class="card" href="good.html">
+      <span class="tag good">✅ Secure</span>
+      <h2>Scoped to the owner</h2>
+      <p>Every query is filtered by the authenticated owner, so other users' orders simply don't exist.</p>
+    </a>
+  </div>
+  <p class="sub" style="margin-top:24px">Accounts: <code>alice / S3cret-Alice!</code>, <code>bob / Bob-Pass-123</code>. Orders 1001,1003 = alice · 1002,1004 = bob · 1005 = admin.</p>
+</div></body></html>

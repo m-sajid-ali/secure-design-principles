@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Secure: scoped to the owner — Module 3</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="wrap">
+  <a class="back" href="index.html">&larr; Back</a>
+  <h1>✅ Secure: scoped to the owner</h1>
+  <div class="banner good">Every query is filtered by the authenticated owner. Try the same IDs — other users' orders return 404, as if they don't exist.</div>
+
+  <div class="sec">
+    <h3>1 · Log in</h3>
+    <div class="row">
+      <div><label>Username</label><input id="username" value="alice"></div>
+      <div><label>Password</label><input id="password" value="S3cret-Alice!"></div>
+    </div>
+    <button onclick="login()">Log in</button>
+    <div id="who" class="who" style="margin-top:10px"></div>
+    <div id="myorders"></div>
+  </div>
+
+  <div class="sec">
+    <h3>2 · Access an order by ID</h3>
+    <label>Order ID</label>
+    <input id="oid" value="1002">
+    <div class="enum">
+      <button class="ghost" onclick="getOrder(1001)">1001</button>
+      <button class="ghost" onclick="getOrder(1002)">1002</button>
+      <button class="ghost" onclick="getOrder(1003)">1003</button>
+      <button class="ghost" onclick="getOrder(1004)">1004</button>
+      <button class="ghost" onclick="getOrder(1005)">1005</button>
+    </div>
+    <div style="margin-top:10px">
+      <button onclick="getOrder()">GET /good/orders/:id →</button>
+      <button class="ghost attack" onclick="cancelOrder()">POST /good/orders/:id/cancel</button>
+    </div>
+    <div id="verdict" class="verdict" style="display:none"></div>
+    <div id="facts"></div>
+    <pre id="raw"></pre>
+  </div>
+</div>
+<script>window.TARGET='good';</script>
+<script src="app.js"></script>
+</body></html>

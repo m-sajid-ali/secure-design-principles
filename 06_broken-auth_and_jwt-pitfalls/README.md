@@ -35,15 +35,15 @@ Key contrast to voice out loud: **L1→L2** "verifying helped — tampering now 
 
 ---
 
-## Run of show (~20 min)
+## Run of show
 
-1. **Frame (2m).** "A JWT is just base64 you can read *and rewrite*. The only thing between an attacker and `role:admin` is how well you check it — and even a perfect check doesn't stop a stolen token."
-2. **L1 decode (3m).** Log in as alice → `GET /l1/account` shows `signature verified: false`. Click **Tamper → role: admin** → **the admin panel leaks every user**. Then **Tamper → sub: 2** → **Bob's private record**. One button each.
-3. **L2 weak secret (4m).** Log in → **Tamper → role: admin** now **fails** (bad signature — "see, verifying helps"). Then **Forge signed with 'secret'** → **admin panel again**. "The secret is the word `secret`; jwt_tool cracks it in milliseconds, and then I mint whatever I want." Note: no expiry either.
-4. **L3 alg:none (3m).** **Forge alg:none** → **works** on the naive verifier. Say clearly: modern `jsonwebtoken` rejects this by default (we tested it) — this level mimics old libraries / hand-rolled checks, and it's *why* you pin `algorithms`.
-5. **L4 hardened (3m).** Same buttons — forge-`secret`, `alg:none`, tamper — **all 401**. **Mint expired token** → `TokenExpiredError`. Normal login still works.
-6. **L5 sender-constrained (4m).** ⭐ Log in (generates an EC keypair in the browser, binds the token to it). **Legit request** → authenticated. Now **Simulate stolen token (no proof)** → **401 NoProof**: "I copied a valid, unexpired token to another client and it's useless — the private key never left the original browser."
-7. **Land it (2m).** Takeaway + review heuristic.
+1. **Frame.** "A JWT is just base64 you can read *and rewrite*. The only thing between an attacker and `role:admin` is how well you check it — and even a perfect check doesn't stop a stolen token."
+2. **L1 decode.** Log in as alice → `GET /l1/account` shows `signature verified: false`. Click **Tamper → role: admin** → **the admin panel leaks every user**. Then **Tamper → sub: 2** → **Bob's private record**. One button each.
+3. **L2 weak secret.** Log in → **Tamper → role: admin** now **fails** (bad signature — "see, verifying helps"). Then **Forge signed with 'secret'** → **admin panel again**. "The secret is the word `secret`; jwt_tool cracks it in milliseconds, and then I mint whatever I want." Note: no expiry either.
+4. **L3 alg:none.** **Forge alg:none** → **works** on the naive verifier. Say clearly: modern `jsonwebtoken` rejects this by default (we tested it) — this level mimics old libraries / hand-rolled checks, and it's *why* you pin `algorithms`.
+5. **L4 hardened.** Same buttons — forge-`secret`, `alg:none`, tamper — **all 401**. **Mint expired token** → `TokenExpiredError`. Normal login still works.
+6. **L5 sender-constrained.** ⭐ Log in (generates an EC keypair in the browser, binds the token to it). **Legit request** → authenticated. Now **Simulate stolen token (no proof)** → **401 NoProof**: "I copied a valid, unexpired token to another client and it's useless — the private key never left the original browser."
+7. **Land it.** Takeaway + review heuristic.
 
 ---
 
@@ -74,6 +74,3 @@ Key contrast to voice out loud: **L1→L2** "verifying helped — tampering now 
 **Verify every token (signature + pinned algorithm + expiry) with a strong secret from the environment — and for high-value APIs, sender-constrain the token so a stolen copy is useless.**
 
 ---
-
-## Verified
-Tested against MariaDB 11 and driven through headless Chromium. On the vulnerable levels: L1 tamper exposes the admin panel and returns other users' records; L2 rejects plain tampering but accepts a token forged with `"secret"`; L3 accepts an `alg:none` token. On the hardened levels: L4 rejects every forgery and expired tokens; L5 authenticates a legitimate proof but rejects the same valid token when it is copied away from its key (`NoProof`) or presented with a different key (`KeyMismatch`).
